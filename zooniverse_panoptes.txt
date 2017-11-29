@@ -1,0 +1,14 @@
+# Bash scripts for building Panoptes (Zooniverse) subject set
+
+* Resize using imagemagick for image < 1M
+for x in *.jpg; do convert -geometry 2399x2399 $x ../panoptes_resize/$x; done
+
+* S3 upload
+aws s3 sync source_folder s3://your_bucket_name/destination_folder/
+
+* Create manifest
+find panoptes/ -name '*.jpg' -print > panoptes_manifest/manifest-171128.csv
+
+* Panoptes
+panoptes subject-set create 0000 "My first subject set"
+panoptes subject-set upload-subjects -m image/jpeg -r 1 0000 manifest.csv
