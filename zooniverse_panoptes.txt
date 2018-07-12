@@ -11,4 +11,4 @@ find panoptes/ -name '*.jpg' -print > panoptes_manifest/manifest-171128.csv
 
 * Panoptes
 panoptes subject-set create 0000 "My first subject set"
-panoptes subject-set upload-subjects -m image/jpeg -r 1 0000 manifest.csv
+panoptes subject-set upload-subjects -m image/jpeg -r 2 0000 manifest.csv
