@@ -1,0 +1,58 @@
+https://cloud.google.com/bigquery/docs/loading-data-cloud-storage-csv
+
+*** template ***
+bq --location=location load \
+--source_format=format \
+dataset.table \
+path_to_source \
+schema
+
+*** example ***
+bq load \
+    --source_format=CSV \
+    --skip_leading_rows=2
+    mydataset.mytable \
+    gs://mybucket/mydata.csv \
+    ./myschema.json
+
+bq load \
+    --autodetect \
+    --source_format=CSV \
+    mydataset.mytable \
+    gs://mybucket/mydata*.csv
+
+*** production ***
+bq load \
+  --autodetect \
+  --source_format=CSV \
+  --null_marker="NA" \
+  bird_point_counts.bird_surveyInfo_records_function \
+  gs://mpg-data-warehouse/bird_point_counts/bird_surveyInfo_records_function.csv
+
+*2020*
+bq load \
+  --autodetect \
+  --source_format=CSV \
+  --null_marker="NA" \
+  bird_point_counts.bird_surveyInfo_records_function2020 \
+   gs://mpg-data-warehouse/bird_point_counts/bird_surveyInfo_records_function-2020.csv \
+   point-count-schema.json
+
+*2021
+bq load \
+    –autodetect \
+    –source_format=CSV \
+    –null_marker=”NA” \
+    bird_point_counts.bird_surveyInfo_records_function2021 \
+    gs://mpg-data-warehouse/bird_point_counts/bird_surveyInfo_records_function-2021.csv
+    gs://mpg-data-warehouse/bird_point_counts/point-count-schema.json
+point-count-schema.json is in Drive and Cloud Storage
+
+*Motus Data
+bq load \
+    --source_format=CSV \
+    --null_marker="NA" \
+    --skip_leading_rows=1 \
+    mpg-datawarehouse-dev:motus_temp.df_alltags \
+    gs://motus_temp/intermountain_stgr_220113.csv \
+    motus_schema.json
