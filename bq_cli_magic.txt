@@ -1,3 +1,4 @@
+Template
 https://cloud.google.com/bigquery/docs/loading-data-cloud-storage-csv
 
 *** template ***
@@ -15,6 +16,7 @@ bq load \
     gs://mybucket/mydata.csv \
     ./myschema.json
 
+Bird Point Counts
 bq load \
     --autodetect \
     --source_format=CSV \
@@ -48,7 +50,7 @@ bq load \
     gs://mpg-data-warehouse/bird_point_counts/point-count-schema.json
 point-count-schema.json is in Drive and Cloud Storage
 
-*Motus Data
+Motus
 bq load \
     --source_format=CSV \
     --null_marker="NA" \
@@ -56,3 +58,29 @@ bq load \
     mpg-datawarehouse-dev:motus_temp.df_alltags \
     gs://motus_temp/intermountain_stgr_220113.csv \
     motus_schema.json
+
+bq load \
+    --source_format=CSV \
+    --null_marker="NA" \
+    --skip_leading_rows=1 \
+    motus-mpg:motus_output.alltags_450 \
+   gs://motus_output/df_alltags_450.csv \
+    motus_schema.json
+
+Creating a table definition using a JSON schema file
+https://cloud.google.com/bigquery/external-table-definition
+
+bq mkdef \
+--noautodetect \
+--source_format=CSV \
+"gs://motus_output/df_alltags_450*" \
+motus_schema.json > /tmp/alltags_450_tabledefinition
+
+Querying Cloud Storage data using permanent external tables
+https://cloud.google.com/bigquery/external-data-cloud-storage#bq
+bq mk \
+--external_table_definition=/tmp/alltags_450_tabledefinition \
+z_dev.external_table_asterisk
+
+https://cloud.google.com/bigquery/external-data-cloud-storage
+gs://mybucket/fed-samples/fed-sample*
